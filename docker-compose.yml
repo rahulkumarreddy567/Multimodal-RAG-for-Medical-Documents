@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  # ── FastAPI backend ───────────────────────────────────
+  api:
+    build: .
+    container_name: medical-rag-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
+  # ── Gradio UI ─────────────────────────────────────────
+  ui:
+    build: .
+    container_name: medical-rag-ui
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python -m ui.app
+    depends_on:
+      - api
+    restart: unless-stopped
