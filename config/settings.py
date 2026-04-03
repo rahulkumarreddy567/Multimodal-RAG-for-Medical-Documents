@@ -3,9 +3,13 @@ Centralized configuration — all hyperparameters, model names, and paths.
 Reads from .env file with sensible defaults.
 """
 
+import os
 from pathlib import Path
 from pydantic_settings import BaseSettings
+from dotenv import load_dotenv
 
+# Force load from .env and OVERRIDE any bad Windows System Ghost Variables
+load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""

@@ -8,8 +8,8 @@ import logging
 from dataclasses import dataclass, field
 
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage
 
 logger = logging.getLogger(__name__)
 
@@ -54,24 +54,42 @@ class MedicalRAGChain:
         api_key: str = "",
         temperature: float = 0.1,
         max_tokens: int = 1024,
+        provider: str = "openai",
     ):
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
+        self.provider = provider.lower()
 
-        self._llm = ChatOpenAI(
-            model=model_name,
-            api_key=api_key or None,
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
+        if self.provider == "local" or (self.provider == "openai" and not api_key):
+            try:
+                from langchain_community.chat_models import ChatOllama
+            except ImportError:
+                # Fallback to older import path if required
+                from langchain_community.chat_models.ollama import ChatOllama
+                
+            # Use local free model via Ollama (e.g., Llama-3)
+            fallback_model = "llama3" if self.provider == "openai" else model_name
+            self._llm = ChatOllama(
+                model=fallback_model,
+                temperature=temperature,
+            )
+            self.model_name = fallback_model
+            logger.info(f"Using local ChatOllama model: {fallback_model} (Warning: make sure Ollama is installed and running!)")
+        else:
+            self._llm = ChatOpenAI(
+                model=model_name,
+                api_key=api_key or None,
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
 
         self._prompt = ChatPromptTemplate.from_messages([
             ("system", SYSTEM_PROMPT),
             ("human", USER_PROMPT),
         ])
 
-        logger.info(f"RAG chain initialized with model: {model_name}")
+        logger.info(f"RAG chain initialized with model: {self.model_name}")
 
     def generate(
         self,

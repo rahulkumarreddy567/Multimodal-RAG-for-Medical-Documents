@@ -73,6 +73,7 @@ def _get_components():
         _components["chain"] = MedicalRAGChain(
             model_name=settings.llm_model,
             api_key=settings.openai_api_key,
+            provider=settings.llm_provider,
         )
 
         logger.info("All pipeline components loaded")
@@ -81,6 +82,15 @@ def _get_components():
 
 
 # ── Endpoints ─────────────────────────────────────────────
+
+@app.get("/")
+async def root():
+    """Root endpoint."""
+    return {
+        "message": "Multimodal Medical RAG API is running!",
+        "docs_url": "/docs",
+        "health_check": "/health"
+    }
 
 
 @app.get("/health", response_model=HealthResponse)
