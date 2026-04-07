@@ -32,9 +32,9 @@ def format_citations(sources: list[dict]) -> str:
 
         # Build citation line
         if content_type == "image":
-            citation = f"[{i}] {file_name}, p.{page} (Image) — relevance: {score:.2f}"
+            citation = f"- **[{i}]** {file_name}, p.{page} (Image) — relevance: {score:.2f}"
         else:
-            citation = f"[{i}] {file_name}, p.{page} — relevance: {score:.2f}"
+            citation = f"- **[{i}]** {file_name}, p.{page} — relevance: {score:.2f}"
 
         lines.append(citation)
 

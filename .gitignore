@@ -1,43 +1,25 @@
-# Python
+.env
+.venv/
+venv/
+ENV/
 __pycache__/
 *.py[cod]
 *$py.class
-*.egg-info/
-dist/
-build/
-*.egg
-
-# Virtual environment
-venv/
-.venv/
-env/
-
-# Environment variables
-.env
-
-# Data (too large for git)
-data/raw/
-data/processed/
-data/index/
-
-# Model caches
-models/
-.cache/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Jupyter
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .ipynb_checkpoints/
-*.ipynb_meta
 
-# OS
+# Local editor / OS
+.vscode/
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Docker
+# Logs
 *.log
+
+# Data and indexing
+data/
+
+# Cache
+pytest-cache-files-*/

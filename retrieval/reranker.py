@@ -53,10 +53,10 @@ class Reranker:
         Returns:
             List of RetrievalResult, re-scored and sorted by cross-encoder score.
         """
-        self._load_model()
-
         if not candidates:
             return []
+
+        self._load_model()
 
         # Build query-passage pairs
         pairs = [(query, c.text) for c in candidates if c.text]
