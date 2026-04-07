@@ -6,7 +6,6 @@ Uses ms-marco-MiniLM-L-6-v2 by default.
 """
 
 import logging
-from dataclasses import dataclass
 
 from sentence_transformers import CrossEncoder
 
@@ -67,10 +66,13 @@ class Reranker:
         # Score all pairs
         scores = self._model.predict(pairs)
 
+        import math
         # Attach scores and sort
         scored_candidates = []
         for candidate, score in zip(candidates, scores):
-            candidate.score = float(score)
+            # Apply sigmoid to convert logits to 0-1 range
+            prob = 1.0 / (1.0 + math.exp(-float(score)))
+            candidate.score = prob
             scored_candidates.append(candidate)
 
         scored_candidates.sort(key=lambda x: x.score, reverse=True)
