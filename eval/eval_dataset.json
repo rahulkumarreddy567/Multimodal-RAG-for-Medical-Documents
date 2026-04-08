@@ -1,0 +1,212 @@
+[
+  {
+    "question": "What is the range of HbA1c values that indicates prediabetes according to the text?",
+    "ground_truth": "5.7-6.4% (39-47 mmol/mol)",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 2,
+    "source_text": "Meta-analyses of 25 RCTs (n=14,230) demonstrate that metformin reduces HbA1c by 1.0-1.5% from baseline, with a favourable safety profile. The UKPDS 34 trial demonstrated a 39% reduction in myocardial infarction and 36% reduction in all-cause mortality in overweight T2DM patients treated with metformin vs conventional therapy. Common adverse effects include gastrointestinal symptoms (nausea, diarrhoea), which are minimised by titrating the dose slowly and taking with food. Diagnostic Test | Diagn"
+  },
+  {
+    "question": "What is the relationship between the number of parameters in the inference-time models and the cross-entropy model using the same encoder?",
+    "ground_truth": "The inference-time models contain exactly the same number of parameters as a cross-entropy model using the same encoder.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 4,
+    "source_text": "We again normalize the output of this network to lie on the unit hypersphere, which enables using an inner product to measure distances in the projection space. As in self-supervised contrastive learning [48, 3], we discard Proj(·) at the end of contrastive training. As a result, our inference-time models contain exactly the same number of parameters as a cross-entropy model using the same encoder, Enc(·). 3.2 Contrastive Loss Functions Given this framework, we now look at the family of contrast"
+  },
+  {
+    "question": "What does the self-supervised contrastive loss use as positives in its approach?",
+    "ground_truth": "The self-supervised contrastive loss uses an augmented version of the same image as positives.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 2,
+    "source_text": "Figure 2: Supervised vs. self-supervised contrastive losses: The self-supervised contrastive loss (left, Eq. 1) contrasts a single positive for each anchor (i.e., an augmented version of the same image) against a set of negatives consisting of the entire remainder of the batch. The supervised contrastive loss (right) considered in this paper (Eq. 2), however, contrasts the set of all samples from the same class as positives against the negatives from the remainder of the batch. As demonstrated b"
+  },
+  {
+    "question": "What is the fasting plasma glucose (FPG) threshold for diagnosing Type 2 Diabetes Mellitus (T2DM) according to the WHO and ADA 2023 guidelines?",
+    "ground_truth": ">= 126 mg/dL (7.0 mmol/L)",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 2,
+    "source_text": "representing 9% of global health expenditure. The pathophysiology of T2DM involves a complex interplay of genetic susceptibility, environmental factors, and lifestyle behaviours. Key mechanisms include peripheral insulin resistance in skeletal muscle and adipose tissue, impaired hepatic glucose production suppression, and progressive decline in pancreatic beta-cell mass and function. Central obesity, physical inactivity, and unhealthy dietary patterns are major modifiable risk factors. Clinical "
+  },
+  {
+    "question": "Which optimizer combination yielded the best performance for SupCon on ImageNet?",
+    "ground_truth": "LARS for pre-training and RMSProp for training the linear layer.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 9,
+    "source_text": "We experimented with standard optimizers such as LARS [59], RMSProp [20] and SGD with momentum [39] in different permutations for the initial pre-training step and train- ing of the dense layer. While SGD with momentum works best for training ResNets with cross-entropy, we get the best performance for SupCon on ImageNet by using LARS for pre-training and RMSProp to training the linear layer. For CIFAR10 and CIFAR100 SGD with momentum performed best. Additional results for combinations of optimiz"
+  },
+  {
+    "question": "What is the performance comparison of SupCon loss and cross-entropy in terms of top-1 accuracy across various augmentations and optimizers?",
+    "ground_truth": "SupCon loss shows significantly lower variance in output compared to cross-entropy, and when batch size is varied while holding other hyperparameters constant, SupCon consistently achieves better top-1 accuracy.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 8,
+    "source_text": "In Fig. 4(a), we compare the top-1 accuracy of SupCon loss against cross-entropy across changes in augmentations (RandAugment [6], AutoAugment [5], SimAugment [3], Stacked RandAugment [49]); optimizers (LARS, SGD with Momentum and RMSProp); and learning rates. We observe significantly lower variance in the output of the contrastive loss. Note that batch sizes for cross-entropy and supervised contrastive are the same, thus ruling out any batch-size effects. In Fig. 4(b), sweeping batch size and h"
+  },
+  {
+    "question": "What is the Mean Corruption Error (mCE) for ResNet-50 trained with Cross-Entropy loss?",
+    "ground_truth": "96.2",
+    "source_file": "sample_medical.pdf",
+    "page_number": 8,
+    "source_text": "Loss Architecture rel. mCE mCE Cross-Entropy AlexNet [28] 100.0 100.0 (baselines) VGG-19+BN [44] 122.9 81.6 ResNet-18 [17] 103.9 84.7 Cross-Entropy ResNet-50 96.2 68.6 (our implementation) ResNet-200 69.1 52.4 Supervised Contrastive ResNet-50 94.6 67.2 ResNet-200 66.5 50.6 Figure 3: Training with supervised contrastive loss makes models more robust to corruptions in images. Left: Robustness as measured by Mean Corruption Error (mCE) and relative mCE over the ImageNet-C dataset [19] (lower is bet"
+  },
+  {
+    "question": "What are the two most straightforward ways to generalize the contrastive loss for supervised learning as presented in the text?",
+    "ground_truth": "The two most straightforward ways to generalize the contrastive loss for supervised learning are Lsup out and Lsup in.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 5,
+    "source_text": "Note that for each anchor i, there is 1 positive pair and 2N −2 negative pairs. The denominator has a total of 2N −1 terms (the positive and negatives). 3.2.2 Supervised Contrastive Losses For supervised learning, the contrastive loss in Eq. 1 is incapable of handling the case where, due to the presence of labels, more than one sample is known to belong to the same class. Generalization to an arbitrary numbers of positives, though, leads to a choice between multiple possible functions. Eqs. 2 an"
+  },
+  {
+    "question": "What dimensionality is the normalized embedding obtained from the encoder network?",
+    "ground_truth": "2048-dimensional",
+    "source_file": "sample_medical.pdf",
+    "page_number": 4,
+    "source_text": "two stage training and discards the contrastive head. Lastly, the scale of experiments in Kamnitsas et. al. is much smaller than in this work. Merging the findings of our paper and CCLP is a promising direction for semi-supervised learning research. Our method is structurally similar to that used in [48, 3] for self-supervised contrastive learning, with modifications for supervised classification. Given an input batch of data, we first apply data augmentation twice to obtain two copies of the ba"
+  },
+  {
+    "question": "What is the HbA1c target for pregnant women with pre-existing type 2 diabetes according to the ADA Standards of Medical Care in Diabetes 2024?",
+    "ground_truth": "< 6.0-6.5%",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 4,
+    "source_text": "Individualised HbA1c targets by patient group. ADA Standards of Medical Care in Diabetes 2024. CKD = Chronic Kidney Disease. Dietary Pattern | HbA1c Effect | Weight Effect | Evidence Level\nMediterranean diet | -0.3 to -0.5% | Moderate reduction | High (RCTs)\nLow-carbohydrate (< 26% kcal | ) -0.5 to -1.0% | Greater short-term loss | Moderate\nDASH diet | -0.2 to -0.4% | Mild reduction | Moderate\nVery low calorie (800 kcal/day) | Remission in ~50% | Significant (-15 kg) | High (DiRECT trial)\nPlant-"
+  },
+  {
+    "question": "What optimizer gives the best results for training the embedding network according to the text?",
+    "ground_truth": "The LARS optimizer gives the best results to train the embedding network.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 21,
+    "source_text": "Accuracy mCE rel. mCE Supervised Contrastive 78.7 67.2 94.6 Cross Entropy (1 stage) 77.1 68.4 103.7 Cross Entropy (2 stage) 73.7 73.3 92.9 Table 7: Comparison between representations learnt using Supervised Contrastive and representations learnt using Cross Entropy loss with either 1 stage of training or 2 stages (representation learning followed by linear classifier). 14.1 Optimizer We experiment with various optimizers for the contrastive learning and training the linear classifier in various "
+  },
+  {
+    "question": "What are some important practical differences between the method discussed in the text and the Compact Clustering via Label Propagation (CCLP) regularizer?",
+    "ground_truth": "The important practical differences include normalization of the contrastive embedding onto the unit sphere, tuning of a temperature parameter in the contrastive objective, and stronger augmentation.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 3,
+    "source_text": "Most similar to our method is the Compact Clustering via Label Propagation (CCLP) regularizer in Kamnitsas et. al. [24]. While CCLP focuses mostly on the semi-supervised case, in the fully supervised case the regularizer reduces to almost exactly our loss formulation. Important practical differences include our normalization of the contrastive embedding onto the unit sphere, tuning of a temperature parameter in the contrastive objective, and stronger augmentation. Additionally, Kamnitsas et. al."
+  },
+  {
+    "question": "What was added in Version 2 of the change log regarding supervised contrastive loss?",
+    "ground_truth": "Analysis of different forms of supervised contrastive loss and its gradients as well as experimental results to back up the analysis.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 23,
+    "source_text": "15 Change Log Version 1 (2020-04-23) Initial Arxiv version. Version 2 (2020-10-22) Added analysis of different forms of supervised contrastive loss and its gradients as well as experimental results to back up the analysis. Additional tuning for better top-1 accuracy. Added transfer learning experiments. Moved accuracy vs num positives to supplemen- tary. More heavily tuned models resulted in deterioration of ECE. Added StackedRandAugment augmentation. Added GitHub link for code. Added results vs"
+  },
+  {
+    "question": "How does the number of positives and negatives affect the gradient contribution in Lsup out and Lsup in?",
+    "ground_truth": "Increasing the number of negatives can make the gradient response to a hard positive larger in any individual training step, and for Lsup out, increasing the number of positives can also make the gradient response larger.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 17,
+    "source_text": "Thus, for the gradient of Lsup in (where Xip = Xin ip ): ∥(zp −(zi • zp)zi∥|Pip −Xin ip | ≈|Pip −Xin ip | p′∈P (i) exp (zi • zp′/τ) + � n∈N(i) exp (zi • zn/τ) − 1 � p′∈P (i) exp (zi • zp′/τ) n∈N(i) exp (zi • zn/τ) (23) For the gradient of Lsup out (where Xip = Xout ip ) ∥(zp −(zi • zp)zi∥|Pip −Xout ip | ≈|Pip −Xout ip | a∈A(i) exp (zi • za/τ) − 1 |P(i)| p′∈P (i) exp (zi • zp′/τ) + � n∈N(i) exp (zi • zn/τ) − 1 |P(i)| n∈N(i) exp (zi • zn/τ) + � p′∈P (i) exp (zi • zp′/τ) −|P(i)| (24) n∈N(i) exp(zi•"
+  },
+  {
+    "question": "What is the top-1 accuracy achieved by the proposed SupCon loss on the ResNet-200 architecture?",
+    "ground_truth": "81.4%",
+    "source_file": "sample_medical.pdf",
+    "page_number": 2,
+    "source_text": "While this is a simple extension to the self-supervised setup, it is non- obvious how to setup the loss function correctly, and we analyze two alternatives. Fig. 2 (right) and Fig. 1 (Supplementary) provide a visual explanation of our proposed loss. Our loss can be seen as a generalization of both the triplet [53] and N-pair losses [45]; the former uses only one positive and one negative sample per anchor, and the latter uses one positive and many negatives. The use of many positives and many ne"
+  },
+  {
+    "question": "What is the HbA1c target for pregnant women with pre-existing type 2 diabetes according to the ADA Standards of Medical Care in Diabetes 2024?",
+    "ground_truth": "< 6.0-6.5%",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 4,
+    "source_text": "Individualised HbA1c targets by patient group. ADA Standards of Medical Care in Diabetes 2024. CKD = Chronic Kidney Disease. Dietary Pattern | HbA1c Effect | Weight Effect | Evidence Level\nMediterranean diet | -0.3 to -0.5% | Moderate reduction | High (RCTs)\nLow-carbohydrate (< 26% kcal | ) -0.5 to -1.0% | Greater short-term loss | Moderate\nDASH diet | -0.2 to -0.4% | Mild reduction | Moderate\nVery low calorie (800 kcal/day) | Remission in ~50% | Significant (-15 kg) | High (DiRECT trial)\nPlant-"
+  },
+  {
+    "question": "What percentage reduction in T2DM incidence was observed in high-risk individuals with prediabetes who underwent intensive lifestyle intervention according to the Diabetes Prevention Program trial?",
+    "ground_truth": "58%",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 4,
+    "source_text": "4. Lifestyle Interventions Structured lifestyle modification is the foundation of T2DM prevention and management. The Diabetes Prevention Program (DPP) trial demonstrated that intensive lifestyle intervention reduced T2DM incidence by 58% in high-risk individuals with prediabetes, superior to metformin alone (31%). 4.1 Dietary Recommendations No single dietary pattern is universally recommended; patient preference, metabolic goals, and cultural factors should guide dietary counselling. Dietary a"
+  },
+  {
+    "question": "What top-1 accuracy was achieved using the N-pairs loss on ImageNet?",
+    "ground_truth": "57.4%",
+    "source_file": "sample_medical.pdf",
+    "page_number": 7,
+    "source_text": "These only achieved 77.5% top-1 accuracy. We additionally experimented with increas- ing the number of training epochs for cross-entropy all the way to 1400, but this actually decreased accuracy (77.0%). We tested the N-pairs loss [45] in our framework with a batch size of 6144. N-pairs achieves only 57.4% top-1 accuracy on ImageNet. We believe this is due to multiple factors missing from N-pairs loss compared to supervised contrastive: the use of multiple views; lower temperature; and many more"
+  },
+  {
+    "question": "What percentage reduction in T2DM incidence was demonstrated by the Diabetes Prevention Program trial through intensive lifestyle intervention in high-risk individuals with prediabetes?",
+    "ground_truth": "58%",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 4,
+    "source_text": "4. Lifestyle Interventions Structured lifestyle modification is the foundation of T2DM prevention and management. The Diabetes Prevention Program (DPP) trial demonstrated that intensive lifestyle intervention reduced T2DM incidence by 58% in high-risk individuals with prediabetes, superior to metformin alone (31%). 4.1 Dietary Recommendations No single dietary pattern is universally recommended; patient preference, metabolic goals, and cultural factors should guide dietary counselling. Dietary a"
+  },
+  {
+    "question": "What was the optimal temperature for top-1 accuracy on ResNet-50 according to the study?",
+    "ground_truth": "0.1",
+    "source_file": "sample_medical.pdf",
+    "page_number": 19,
+    "source_text": "We found empirically that a temperature of 0.1 was optimal for top-1 accuracy on ResNet-50; results on various temperatures are shown in Fig. 4 of the main paper. We use the same temperature for all experiments on ResNet-200. 11 Effect of Number of Positives 1 [3] 3 5 7 9 No cap (13) 69.3 76.6 78.0 78.4 78.3 78.5 Table 5: Comparison of Top-1 accuracy variability as a function of the maximum number of positives |P(i)| varies from 1 to no cap . Adding more positives bene- fits the final Top-1 accu"
+  },
+  {
+    "question": "What is the first-line pharmacotherapy for Type 2 diabetes mellitus according to the systematic review?",
+    "ground_truth": "Metformin is the first-line pharmacotherapy for Type 2 diabetes mellitus.",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 1,
+    "source_text": "Evidence-Based Clinical Guidelines for the Diagnosis and Management of Type 2 Diabetes Mellitus: A Systematic Review International Journal of Clinical Medicine and Evidence-Based Practice Vol. 12, Issue 3, March 2025  |  DOI: 10.1234/ijcmebp.2025.0312 Priya Sharma, MD1  |  James O'Brien, PhD2  |  Aiko Tanaka, MD, MPH3  |  Mehmet Yilmaz, MD1 1Department of Endocrinology, University Hospital Paris   2Institute of Health Data Sciences, London   3Department of Internal Medicine, Tokyo Medical Univer"
+  },
+  {
+    "question": "What is the Top-1 classification accuracy of the SupCon method on the CIFAR10 dataset using ResNet-50?",
+    "ground_truth": "96.0",
+    "source_file": "sample_medical.pdf",
+    "page_number": 7,
+    "source_text": "Dataset SimCLR[3] Cross-Entropy Max-Margin [32] SupCon CIFAR10 93.6 95.0 92.4 96.0 CIFAR100 70.7 75.3 70.5 76.5 ImageNet 70.2 78.2 78.0 78.7 Table 2: Top-1 classification accuracy on ResNet-50 [17] for various datasets. We compare cross-entropy training, unsupervised representation learning (SimCLR [3]), max-margin classifiers [32] and SupCon (ours). We re-implemented and tuned hyperparameters for all baseline numbers except margin classifiers where we report published results. Note that the CIF"
+  },
+  {
+    "question": "What is the relationship between the gradient of the supervised loss with respect to wi and zi?",
+    "ground_truth": "The gradient of the supervised loss with respect to wi is related to that with respect to zi via the chain rule.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 16,
+    "source_text": "positive/negative mining, it will be shown to be true for all three contrastive losses (self-supervised and both supervised versions). The projection network applies a normalization to its outputs4. We shall let wi denote the projection network output prior to normalization, i.e., zi = wi/∥wi∥. As we show below, normalizing the representations provides structure (when combined with Eq. 12) to the gradient enables the learning to focus on hard positives and negatives. The gradient of the supervis"
+  },
+  {
+    "question": "What is the target blood pressure for most T2DM patients?",
+    "ground_truth": "Target < 130/80 mmHg in most T2DM patients.",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 5,
+    "source_text": "Continuous glucose monitoring (CGM) is increasingly recommended in T2DM patients on insulin or at high risk of hypoglycaemia. CGM-derived metrics including Time in Range (TIR: glucose 70-180 mg/dL) correlate with HbA1c and predict complications. A TIR > 70% corresponds approximately to HbA1c < 7%. 6. Cardiovascular Risk Management Cardiovascular disease (CVD) is the leading cause of morbidity and mortality in T2DM, accounting for approximately 50% of deaths. Comprehensive cardiovascular risk fac"
+  },
+  {
+    "question": "Which augmentation strategy provided the highest Top-1 accuracy on ResNet-50?",
+    "ground_truth": "AutoAugment",
+    "source_file": "sample_medical.pdf",
+    "page_number": 21,
+    "source_text": "The strategy involves an additional RandAugment step before doing the color jitter as done in SimAugment. This leads to a more diverse set of images created by the augmentation and hence more robust training which generalizes better. and found that AutoAugment [30] gave us the highest Top-1 accuracy on ResNet-50 for both the cross entropy loss and supervised contrastive loss. On the other hand Stacked RandAugment [49] gives us highest Top-1 accuracy on ResNet-200 for both the cross entropy loss "
+  },
+  {
+    "question": "Who are the authors of the paper titled 'Unsupervised visual representation learning by context prediction'?",
+    "ground_truth": "Carl Doersch, Abhinav Gupta, and Alexei A Efros.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 10,
+    "source_text": "[9] Carl Doersch, Abhinav Gupta, and Alexei A Efros. Unsupervised visual representation learn- ing by context prediction. In Proceedings of the IEEE International Conference on Computer Vision, pages 1422–1430, 2015. 3 [10] Gamaleldin Elsayed, Dilip Krishnan, Hossein Mobahi, Kevin Regan, and Samy Bengio. Large margin deep networks for classification. In Advances in neural information processing systems, pages 842–852, 2018. 1, 3 [11] M. Everingham, L. Van Gool, C. K. I. Williams, J. Winn, and A."
+  },
+  {
+    "question": "What is the first-line pharmacotherapy for Type 2 diabetes mellitus (T2DM) mentioned in the systematic review?",
+    "ground_truth": "Metformin",
+    "source_file": "Medical_Evidence_Document.pdf",
+    "page_number": 1,
+    "source_text": "Evidence-Based Clinical Guidelines for the Diagnosis and Management of Type 2 Diabetes Mellitus: A Systematic Review International Journal of Clinical Medicine and Evidence-Based Practice Vol. 12, Issue 3, March 2025  |  DOI: 10.1234/ijcmebp.2025.0312 Priya Sharma, MD1  |  James O'Brien, PhD2  |  Aiko Tanaka, MD, MPH3  |  Mehmet Yilmaz, MD1 1Department of Endocrinology, University Hospital Paris   2Institute of Health Data Sciences, London   3Department of Internal Medicine, Tokyo Medical Univer"
+  },
+  {
+    "question": "What is the role of gradients in the context of contrastive loss as described in the text?",
+    "ground_truth": "Gradients with respect to the unnormalized projection network representations provide an intrinsic mechanism for hard positive/negative mining during training.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 15,
+    "source_text": "the gradient of Eq. 25: ∂Lsup out ∂zi = −1 |P(i)| a∈A(i) exp (zi • za/τ) = −1 τ|P(i)| a∈A(i) zaexp (zi • za/τ) a∈A(i) exp (zi • za/τ) = −1 τ|P(i)| p′∈P (i) zp′Pip′ − � n∈N(i) znPin = −1 τ|P(i)| p∈P (i) zp − � p′∈P (i) zp′Pip′ − � n∈N(i) znPin = −1 τ|P(i)| p∈P (i) zp − � p∈P (i) zp′Pip′ − � p∈P (i) znPin = −1 τ|P(i)| p∈P (i) zp − � p′∈P (i) |P(i)|zp′Pip′ − � n∈N(i) |P(i)|znPin = −1 τ|P(i)| p∈P (i) zp − � p∈P (i) |P(i)|zpPip − � n∈N(i) |P(i)|znPin p∈P (i) zp(Pip −Xout ip ) + � n∈N(i) znPin where w"
+  },
+  {
+    "question": "What top-1 accuracy was achieved on the ImageNet dataset using ResNet-200 in this study?",
+    "ground_truth": "81.4%",
+    "source_file": "sample_medical.pdf",
+    "page_number": 1,
+    "source_text": "Supervised Contrastive Learning Prannay Khosla ∗ Google Research Piotr Teterwak ∗† Boston University Chen Wang † Snap Inc. Aaron Sarna ‡ Google Research Yonglong Tian † MIT Phillip Isola † MIT Aaron Maschinot Google Research Ce Liu Google Research Dilip Krishnan Google Research Contrastive learning applied to self-supervised representation learning has seen a resurgence in recent years, leading to state of the art performance in the unsu- pervised training of deep image models. Modern batch cont"
+  },
+  {
+    "question": "What is the relationship between Pip and Xin ip as defined in the text?",
+    "ground_truth": "Pip is the likelihood for zp with respect to all positives and negatives, while Xin ip is that but with respect to only the positives, and it is stated that Pip ≤ Xin ip.",
+    "source_file": "sample_medical.pdf",
+    "page_number": 14,
+    "source_text": "We start by deriving the gradient of Lsup in (Eq. 7): ∂Lsup in ∂zi = −∂ exp (zi • zp/τ) � a∈A(i) exp (zi • za/τ) = ∂ ∂zi log � a∈A(i) exp (zi • za/τ) − ∂ ∂zi log � p∈P (i) exp (zi • zp/τ) a∈A(i) zaexp (zi • za/τ) a∈A(i) exp (zi • za/τ) −1 p∈P (i) zpexp (zi • zp/τ) p∈P (i) exp (zi • zp/τ) p∈P (i) zpexp (zi • zp/τ) + � n∈N(i) znexp (zi • zn/τ) a∈A(i) exp (zi • za/τ) −1 p∈P (i) zpexp (zi • zp/τ) p∈P (i) exp (zi • zp/τ) p∈P (i) zp(Pip −Xin ip ) + � n∈N(i) znPin where we have defined: Pip ≡ exp (zi •"
+  }
+]

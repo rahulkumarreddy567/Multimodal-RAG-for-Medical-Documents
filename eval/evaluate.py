@@ -11,6 +11,17 @@ from dataclasses import dataclass, field, asdict
 
 logger = logging.getLogger(__name__)
 
+def _metric_from_result(result, metric_name: str) -> float:
+    """Safely extract a metric mean from RAGAS EvaluationResult."""
+    try:
+        df = result.to_pandas()
+        if metric_name in df.columns:
+            value = float(df[metric_name].dropna().mean())
+            return 0.0 if value != value else value  # NaN guard
+    except Exception as exc:
+        logger.warning("Failed to parse metric %s: %s", metric_name, exc)
+    return 0.0
+
 
 @dataclass
 class EvalSample:
@@ -142,10 +153,10 @@ def run_ragas_eval(
     )
 
     eval_result = EvalResult(
-        faithfulness=float(result.get("faithfulness", 0)),
-        answer_relevancy=float(result.get("answer_relevancy", 0)),
-        context_precision=float(result.get("context_precision", 0)),
-        context_recall=float(result.get("context_recall", 0)),
+        faithfulness=_metric_from_result(result, "faithfulness"),
+        answer_relevancy=_metric_from_result(result, "answer_relevancy"),
+        context_precision=_metric_from_result(result, "context_precision"),
+        context_recall=_metric_from_result(result, "context_recall"),
         num_samples=len(samples),
     )
 

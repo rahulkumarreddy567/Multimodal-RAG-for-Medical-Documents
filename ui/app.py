@@ -1,7 +1,3 @@
-﻿"""
-Gradio UI for multimodal medical document QA.
-"""
-
 import logging
 from pathlib import Path
 
@@ -9,7 +5,87 @@ import gradio as gr
 
 from config.settings import settings
 
-logger = logging.getLogger(__name__)
+CUSTOM_CSS = """
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #00d2ff;
+    --secondary-color: #3a7bd5;
+    --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Outfit', sans-serif !important;
+    background: var(--bg-gradient) !important;
+    color: #e0e0e0 !important;
+}
+
+.gradio-container {
+    max-width: 1200px !important;
+    margin: auto !important;
+}
+
+.header-container {
+    text-align: center;
+    padding: 2rem 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+}
+
+.header-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    background: linear-gradient(to right, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.header-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.card {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 15px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
+.tab-item {
+    border: none !important;
+}
+
+.primary-btn {
+    background: linear-gradient(to right, #00d2ff, #3a7bd5) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4) !important;
+}
+
+.source-item {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--primary-color);
+}
+"""
 
 
 def create_gradio_app():
@@ -57,11 +133,11 @@ def create_gradio_app():
             )
 
             formatted = pipeline["formatter"](result.answer, result.sources)
-            source_text = "\n".join(
-                f"- {s['file']}, p.{s['page']} ({s['type']}) - score: {s['score']:.3f}"
+            source_list = [
+                f"<div class='source-item'><b>{s['file']}</b>, p.{s['page']} ({s['type']}) - conf: {s['score']:.3f}</div>"
                 for s in result.sources
-            )
-            return formatted, source_text
+            ]
+            return formatted, "".join(source_list)
         except Exception as exc:
             logger.error("Query error: %s", exc, exc_info=True)
             return f"Error: {exc}", ""
@@ -162,54 +238,53 @@ def create_gradio_app():
                 vectors_indexed = len(metadata_list)
 
             return (
-                f"Processed and indexed: {filename}\n\n"
-                f"- Pages: {extraction.total_pages}\n"
-                f"- Text chunks: {len(chunks)}\n"
-                f"- Images extracted: {len(images)}\n"
-                f"- Vectors indexed: {vectors_indexed}\n\n"
+                f"### ✅ Processed and indexed: {filename}\n\n"
+                f"- **Pages**: {extraction.total_pages}\n"
+                f"- **Text chunks**: {len(chunks)}\n"
+                f"- **Images extracted**: {len(images)}\n"
+                f"- **Vectors indexed**: {vectors_indexed}\n\n"
                 "Document is ready for querying."
             )
         except Exception as exc:
             logger.error("Upload error: %s", exc, exc_info=True)
-            return f"Error processing file: {exc}"
+            return f"❌ Error processing file: {exc}"
 
-    with gr.Blocks(title="Medical RAG - Multimodal Document QA") as demo:
-        gr.Markdown(
+    with gr.Blocks(title="Medical RAG - Multimodal Document QA", css=CUSTOM_CSS) as demo:
+        # Header Section
+        gr.HTML(
             """
-# Multimodal Medical RAG
-### Evidence-based answers from medical documents with citations
-
-Ask questions about medical research papers. Answers are grounded in source
-documents with page-level citations.
-"""
+            <div class='header-container'>
+                <div class='header-title'>🏥 Medical RAG Assistant</div>
+                <div class='header-subtitle'>Evidence-based answers from multimodal research papers</div>
+            </div>
+            """
         )
 
         with gr.Tabs():
-            with gr.TabItem("Ask a Question"):
+            with gr.TabItem("🔍 Ask a Question", elem_id="qa-tab"):
                 with gr.Row():
-                    with gr.Column(scale=2):
+                    with gr.Column(scale=2, elem_classes="card"):
                         question_input = gr.Textbox(
-                            label="Your Medical Question",
-                            placeholder="e.g., What are the diagnostic criteria for Type 2 diabetes?",
-                            lines=3,
+                            label="Medical Question",
+                            placeholder="e.g., What are current clinical guidelines for immunotherapy in NSCLC?",
+                            lines=4,
                         )
-                        reranker_toggle = gr.Checkbox(
-                            label="Use cross-encoder re-ranking",
-                            value=True,
-                        )
+                        with gr.Row():
+                            reranker_toggle = gr.Checkbox(
+                                label="Use Cross-Encoder Re-Ranking",
+                                value=True,
+                            )
                         submit_btn = gr.Button(
-                            "Get Answer",
+                            "Get Evidence-Based Answer",
                             variant="primary",
-                            size="lg",
+                            elem_classes="primary-btn",
                         )
 
-                    with gr.Column(scale=3):
+                    with gr.Column(scale=3, elem_classes="card"):
+                        gr.Markdown("### 📝 Answer")
                         answer_output = gr.Markdown(label="Answer")
-                        sources_output = gr.Textbox(
-                            label="Sources",
-                            lines=5,
-                            interactive=False,
-                        )
+                        gr.Markdown("### 📚 Source Evidence")
+                        sources_output = gr.HTML(label="Sources")
 
                 submit_btn.click(
                     fn=answer_question,
@@ -217,14 +292,19 @@ documents with page-level citations.
                     outputs=[answer_output, sources_output],
                 )
 
-            with gr.TabItem("Upload Document"):
-                gr.Markdown("Upload a medical PDF to add it to the knowledge base.")
-                file_upload = gr.File(
-                    label="Upload PDF",
-                    file_types=[".pdf"],
-                )
-                upload_btn = gr.Button("Process and Index", variant="primary")
-                upload_result = gr.Markdown()
+            with gr.TabItem("📤 Upload Document"):
+                with gr.Row():
+                    with gr.Column(elem_classes="card"):
+                        gr.Markdown("### Add New Research to Knowledge Base")
+                        file_upload = gr.File(
+                            label="Upload Medical PDF",
+                            file_types=[".pdf"],
+                        )
+                        upload_btn = gr.Button("Extract & Index", variant="primary", elem_classes="primary-btn")
+                    
+                    with gr.Column(elem_classes="card"):
+                        gr.Markdown("### Processing Logs")
+                        upload_result = gr.Markdown()
 
                 upload_btn.click(
                     fn=upload_pdf,
@@ -232,12 +312,12 @@ documents with page-level citations.
                     outputs=[upload_result],
                 )
 
-        gr.Markdown(
+        gr.HTML(
             """
----
-*Built with BGE-M3 + CLIP embeddings, FAISS retrieval, cross-encoder
-re-ranking, and GPT-4o/LLaMA generation.*
-"""
+            <div style='text-align: center; margin-top: 2rem; opacity: 0.6; font-size: 0.8rem;'>
+                Built with BGE-M3 + CLIP + FAISS + GPT-4o | Evidence-based Medical Document RAG
+            </div>
+            """
         )
 
     return demo
@@ -249,8 +329,6 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=settings.gradio_port,
         share=False,
-        theme=gr.themes.Soft(
-            primary_hue="teal",
-            secondary_hue="blue",
-        ),
+        theme=gr.themes.Default(), # Base theme overridden by custom CSS
     )
+

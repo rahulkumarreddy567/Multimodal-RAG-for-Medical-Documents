@@ -48,7 +48,7 @@ class TextEmbedder:
                 from sentence_transformers import SentenceTransformer
 
                 self._model = SentenceTransformer(
-                    "BAAI/bge-m3", device=self.device
+                    self.model_name, device=self.device
                 )
 
     def embed(self, texts: list[str]) -> np.ndarray:

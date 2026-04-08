@@ -6,10 +6,22 @@ Generates comparison tables and charts for the research paper.
 
 import json
 import logging
+import time
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+def _metric_from_result(result, metric_name: str) -> float:
+    """Safely extract a metric mean from RAGAS EvaluationResult."""
+    try:
+        df = result.to_pandas()
+        if metric_name in df.columns:
+            value = float(df[metric_name].dropna().mean())
+            return 0.0 if value != value else value  # NaN guard
+    except Exception as exc:
+        logger.warning("Failed to parse metric %s: %s", metric_name, exc)
+    return 0.0
 
 
 @dataclass
@@ -46,16 +58,89 @@ def run_bm25_baseline(
         logger.warning("rank_bm25 not installed. Install with: pip install rank-bm25")
         return BenchmarkResult(strategy_name="BM25")
 
+    if not eval_samples or not corpus_texts or rag_chain is None:
+        logger.warning("BM25 benchmark skipped due to missing samples/corpus/chain")
+        return BenchmarkResult(strategy_name="BM25")
+
+    from datasets import Dataset
+    from ragas import evaluate
+    from ragas.metrics import (
+        faithfulness,
+        answer_relevancy,
+        context_precision,
+    )
+    from retrieval.context_builder import build_context
+
     # Tokenize corpus
     tokenized_corpus = [doc.lower().split() for doc in corpus_texts]
     bm25 = BM25Okapi(tokenized_corpus)
 
     logger.info(f"BM25 index built with {len(corpus_texts)} documents")
 
-    # TODO: Run eval samples through BM25 retrieval + LLM generation
-    # and compute RAGAS metrics. This is a placeholder for Week 7.
+    questions = []
+    answers = []
+    contexts = []
+    ground_truths = []
+    latency_ms = []
 
-    return BenchmarkResult(strategy_name="BM25")
+    for sample in eval_samples:
+        q = sample.question.strip()
+        query_tokens = q.lower().split()
+        start = time.perf_counter()
+
+        scores = bm25.get_scores(query_tokens)
+        # Top-5 lexical contexts
+        top_indices = sorted(
+            range(len(scores)),
+            key=lambda i: scores[i],
+            reverse=True,
+        )[:5]
+        top_contexts = [corpus_texts[i] for i in top_indices]
+
+        pseudo_results = []
+        for i, ctx in enumerate(top_contexts, start=1):
+            pseudo_results.append(
+                type(
+                    "BM25Result",
+                    (),
+                    {
+                        "content_type": "text",
+                        "source_file": "bm25_corpus",
+                        "page_number": i,
+                        "text": ctx,
+                    },
+                )()
+            )
+        context_str = build_context(pseudo_results, include_images=False)
+        gen_result = rag_chain.generate(q, context_str)
+
+        elapsed = (time.perf_counter() - start) * 1000
+        latency_ms.append(elapsed)
+
+        questions.append(q)
+        answers.append(gen_result.answer)
+        contexts.append(top_contexts)
+        ground_truths.append(sample.ground_truth)
+
+    eval_dataset = Dataset.from_dict({
+        "question": questions,
+        "answer": answers,
+        "contexts": contexts,
+        "ground_truth": ground_truths,
+    })
+    result = evaluate(
+        eval_dataset,
+        metrics=[faithfulness, answer_relevancy, context_precision],
+    )
+
+    return BenchmarkResult(
+        strategy_name="BM25",
+        faithfulness=_metric_from_result(result, "faithfulness"),
+        answer_relevancy=_metric_from_result(result, "answer_relevancy"),
+        context_precision=_metric_from_result(result, "context_precision"),
+        recall_at_5=0.0,  # lexical baseline uses synthetic corpus mapping
+        avg_latency_ms=sum(latency_ms) / max(1, len(latency_ms)),
+    )
 
 
 def run_comparison(
